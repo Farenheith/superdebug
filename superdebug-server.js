@@ -67,8 +67,8 @@ function handleResponse (request, start, logger, debugLog, debugCurl, isError) {
     var status = isError ? 'NO_STATUS_CODE' : responseOrError.status
 
     debugCurl(chalk.gray(curl))
-    logger(curl)
-    if (isError) logger(chalk.red(responseOrError))
+    logger(curl, isError)
+    if (isError) logger(chalk.red(responseOrError), isError)
     debugLog(
       '%s %s %s %s %s',
       chalk.magenta(protocol),
@@ -77,11 +77,11 @@ function handleResponse (request, start, logger, debugLog, debugCurl, isError) {
       chalk.gray(request.url),
       chalk.gray('(') + chalk[getColorByResponseTime(elapsed)](elapseTime) + chalk.gray(')')
     )
-    logger(protocol + ' ' + requestMethod + ' ' + status + ' ' + request.url + ' (' + elapseTime + ')')
+    logger(protocol + ' ' + requestMethod + ' ' + status + ' ' + request.url + ' (' + elapseTime + ')', isError)
   }
 };
 
-module.exports = function superdebug (logger, options = { logName: 'super-debug', curlName: 'super-curl' }) {
+module.exports = function superdebug (logger, options = { logName: 'super-debug', curlName: 'super-curl',  }) {
   logger = logger || function () { }
   options = options || { logName: 'super-debug', curlName: 'super-curl' }
 
